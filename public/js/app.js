@@ -1,5 +1,5 @@
 $(function() {
-  // Auto re-submit form when user clicks a pagination link
+  // Auto re-submit form with new url when user clicks a link in response data
   // FIXME: This is stupid and tied to /api/v1…
   $(".tab-content").delegate("a", "click", function() {
     var link = $(this).attr('href');
@@ -38,11 +38,10 @@ $(function() {
       button.show();
 
       var result = data;
+
       if(result.error) {
         $('#api-error span#error-msg').html(result.error).parent().show();
       } else {
-        console.log(result);
-        window.rune = result;
         $('#tab1').html(result.request);
         $('#tab2').html(result.header);
         $('#tab2').append(result.body);
