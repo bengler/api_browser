@@ -1,3 +1,4 @@
+require "sinatra/reloader"
 # coding: utf-8
 module ApiBrowser
   class App < Sinatra::Base
@@ -5,6 +6,11 @@ module ApiBrowser
     set :root, (File.dirname(__FILE__) + '/../../')
 
     set :endpoints, Proc.new { Parser.parse(doc_path.to_s)}
+
+    configure :development do
+      register Sinatra::Reloader
+      also_reload "lib/**/*.rb"
+    end
 
     helpers Curling::Helpers
     helpers Hurl::Helpers::PrettyPrinting

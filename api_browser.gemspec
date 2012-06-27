@@ -25,5 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency "coderay", '1.0.6'
   s.add_dependency "yard"
   s.add_dependency "oauth"
+  s.add_development_dependency "sinatra-contrib"
 
 end
