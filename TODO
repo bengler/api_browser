@@ -1,0 +1,4 @@
+Replace @category with !group directive?
+  http://rubydoc.info/docs/yard/file/docs/Tags.md#group
+
+Add support for example parameters, especially complex JSON structures

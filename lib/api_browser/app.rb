@@ -40,8 +40,23 @@ module ApiBrowser
         !!session[:oauth_token]
       end
 
+      # FIXME: This hardcode is no good.
+      # Instead; check url against endpoints
       def invalid_url?(url)
         !url.match /^\/api/
+      end
+
+      # turn post_data into a string for PUT requests
+      def stringify_data(data)
+        if data.is_a? String
+          data
+        elsif data.is_a? Array
+          data.map { |x| stringify_data(x) }.join("&")
+        elsif data.is_a? Curl::PostField
+          data.to_s
+        else
+          raise "Cannot stringify #{data.inspect}"
+        end
       end
 
       # headers from non-empty keys and values
@@ -75,6 +90,7 @@ module ApiBrowser
         @token = access_token(session[:oauth_token], session[:oauth_token_secret])
       end
 
+      # FIXME: Replace these with sinatra flash message extension?
       @info = session.delete('info')
       @success = session.delete('success')
       @error = session.delete('error')
@@ -82,7 +98,7 @@ module ApiBrowser
 
     get '/?' do
       if authenticated?
-        redirect base_url + settings.endpoints.first.path
+        redirect base_url + settings.endpoints.first.doc_path
       else
         erb :login
       end
@@ -130,6 +146,7 @@ module ApiBrowser
       begin
 
         if method == 'PUT'
+          # FIXME: stringify_data is missing. Copy it from hurl.it
           curl.http_put(stringify_data(post_data))
         else
           curl.send("http_#{method.downcase}", *post_data)
@@ -182,13 +199,12 @@ module ApiBrowser
       redirect base_url + '/'
     end
 
-    #######
-    # Catch-all API doc route
-    #######
-    #
+    # Catch-all API doc route, will render an Endpoint with views/doc.erb
+    # if it exists
     get /(\/.*)/ do
       path = params[:captures].first
-      if apidoc = settings.endpoints.find {|e| path == e.path + '.' + e.method}
+
+      if apidoc = settings.endpoints.find {|e| path == e.doc_path}
         @ctx = apidoc
         erb :doc
       else

@@ -40,6 +40,14 @@ module ApiBrowser
       end
 
     end
+
+    # The path used in the sinatra app for this endpoint in
+    # 
+    # get /(\/.*)/
+    #
+    def doc_path
+      "#{path}.#{method}"
+    end
   end
 
 end
