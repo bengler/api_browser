@@ -2,6 +2,8 @@
 $:.push File.expand_path("../lib", __FILE__)
 require "api_browser/version"
 
+#raise "test"
+
 Gem::Specification.new do |s|
   s.name        = "api_browser"
   s.version     = ApiBrowser::VERSION
@@ -20,5 +22,8 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_dependency "coderay", '1.0.6'
+  s.add_dependency "yard"
+  s.add_dependency "oauth"
+
 end
