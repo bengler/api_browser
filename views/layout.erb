@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link href="<%= base_url%>/css/bootstrap.css" rel="stylesheet">
+    <link href="<%= base_url%>/css/pygment_trac.css" rel="stylesheet">
+    <link href="<%= base_url%>/css/api_browser.css" rel="stylesheet">
+    <script src="<%= base_url%>/js/jquery.js"></script>
+    <script src="<%= base_url%>/js/bootstrap-tab.js"></script>
+    <script src="<%= base_url%>/js/bootstrap-alert.js"></script>
+    <script src="<%= base_url%>/js/dummy.js"></script>
+    <script src="<%= base_url%>/js/app.js"></script>
+    
+    <title><%= settings.name %> API Browser</title>
+    <style>
+    </style>
+    <script type="text/javascript">
+      var ApiBrowser = {
+        base_url : <%= base_url.inspect %>
+      };
+    </script>
+  </head>
+  <body>
+    
+    <div class="navbar navbar-fixed-top">
+
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          </a>
+          <a class="brand" href="/"><%= settings.name %> API</a>
+          <% if authenticated? %>
+            <a href="<%= base_url%>/logout" class="pull-right btn btn-primary btn-large">Logout</a>
+          <% else %>
+            <a href="<%= base_url%>/login" class="pull-right btn btn-primary btn-large">Login</a>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Main content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span10">
+          <%= yield %>
+
+        </div>
+        <div class="navigation span4">
+          <ul class="nav nav-list">
+            <% settings.endpoints.group_by{|e| e.category}.sort.each do |category, endpoints| %>
+              <li class="nav-header">
+              <%= category || 'Uncategorized' %>
+              </li>
+              <% endpoints.each do |e| %>
+                <li><a href="<%= base_url + e.path + '.' + e.method%>"><%= e.method + ' ' + e.path %></a></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <div class="row">
+      <div class="span6 offset5">
+      <footer class="footer">
+
+      <p>
+      Built with <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>, Request / Response style and logic from <a href="http://hurl.it">hurl</a>
+      </p>
+      </footer>
+      </div>
+    </div>
+  </body>
+</html>
+

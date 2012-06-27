@@ -1,0 +1,133 @@
+      <div class="page-header">
+        <h1><%= @ctx.method %> <%= @ctx.path %></h1>
+        <br>
+        <p class="lead">
+        <%= @ctx.docstring %>
+        </p>
+        <% if @ctx.params.any? %>
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="span3">
+            <col class="span2">
+            <col class="span5">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @ctx.params.each do |param| %>
+            <tr>
+              <td>
+                <code><%= param[:name] %></code>
+                <% if param[:type] == 'required' %>
+                  <span class="label label-success">Required</span>
+                <% else %>
+                  <span class="label label-warning">Optional</span>
+                <% end %>
+              </td>
+              <td>
+                <% param[:types].each do |type| %>
+                  <code><%= type %></code>
+                  <br>
+                  <br>
+                <% end %>
+              </td>
+              <td>
+                <%= param[:doc]%>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+
+        <% if @ctx.status.any? %>
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="span1">
+            <col class="span4">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Response</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @ctx.status.each do |s| %>
+            <tr>
+              <td>
+                <% if s[:code].between?(200, 299) %>
+                  <span class="label label-success"><%= s[:code] %></span>
+                <% elsif s[:code].between?(300, 399) %>
+                  <span class="label label-info"><%= s[:code] %></span>
+                <% elsif s[:code].between?(400, 499) %>
+                  <span class="label label-important"><%= s[:code] %></span>
+                <% end %>
+              </td>
+              <td>
+                <%= s[:doc]%>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+
+      </div>
+
+      <h2>Explore</h2>
+      <br>
+
+      <div id="api-error" class="alert alert-error" style="display: none;">
+        <button class="close" data-dismiss="alert">×</button>
+        <span id="error-msg"></span>
+      </div>
+
+      <form class="api form-horizontal">
+        <input type="hidden" name="method" value="<%= @ctx.method.upcase %>" />
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="input01">Path</label>
+            <div class="controls">
+              <input name="url" type="text" class="span8 input-xlarge" id="input01" value="<%= @ctx.example %>">
+              <% if @ctx.method.upcase == 'GET' %>
+                <p class="help-block">Feel free to experiment with GET params in this field.</p>
+              <% end %>
+            </div>
+          </div>
+        <% if @ctx.method.upcase == 'POST' %>
+          <hr>
+          <% if @ctx.example_params %>
+            <% @ctx.example_params.each do |param, value| %>
+            <div class="control-group">
+              <label class="control-label" for="input01"><%= param %></label>
+              <div class="controls">
+                <input name="<%= param %>" type="text" class="input-xlarge" id="input01" value="<%= value %>">
+              </div>
+            </div>
+            <% end %>
+          <% end %>
+        <% end %>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= @ctx.method.upcase %></button>
+            <img src="<%= base_url %>/img/ajax-loader.gif" id="spinner" style="display: none; ">
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li><a href="#tab1" data-toggle="tab">Request</a></li>
+          <li class="active"><a href="#tab2" data-toggle="tab">Response</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" id="tab1"></div>
+          <div class="tab-pane active" id="tab2"></div>
+        </div>
+      </div>
+

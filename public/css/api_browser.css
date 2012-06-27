@@ -1,0 +1,17 @@
+body {
+  padding-top: 40px;
+}
+footer {
+  margin-top: 50px;
+}
+
+.navigation {
+  margin-top: 10px;
+}
+
+.highlight .string .content { color: green } /* Literal.String */
+.highlight .string .char { color: green; font-weight: bold; } /* Literal.String */
+.highlight .integer { color: blue }
+.highlight .predefined-constant { color: purple }
+.highlight .key .content { color: navy }
+

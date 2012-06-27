@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/pygment_trac.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap-tab.js"></script>
+    <script src="/js/bootstrap-alert.js"></script>
+    <script src="/js/dummy.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <title>Underskog API Browser</title>
+    <style>
+      body {
+        padding-top: 90px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="navbar navbar-fixed-top">
+
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          </a>
+          <a class="brand" href="#">Underskog API</a>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <ul class="breadcrumb">
+            <li>
+            <a href="/">hjem</a> <span class="divider">/</span>
+            </li>
+            <li>
+            <a href="/api">api</a> <span class="divider">/</span>
+            </li>
+            <li>
+            <a href="/api/v1">v1</a> <span class="divider">/</span>
+            </li>
+            <li>
+            <a href="/api/v1/users">users</a> <span class="divider">/</span>
+            </li>
+            <li class="active">:id</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Main content -->
+    <div class="container">
+
+      
+
+      
+
+      
+
+      <div class="page-header">
+        <h1>POST /api/v1/events/:id/rsvp</h1>
+        <br>
+        <p class="lead">
+        Create or remove a participation on an instance of an event. This will also
+follow the event on Underskog if the kind is any other than <code>none</code> and the
+user has not previously unfollowed it.
+        </p>
+        
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="span2">
+            <col class="span2">
+            <col class="span7">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>
+                <code>id</code>
+                <span class="label label-success">Required</span>
+              </td>
+              <td>
+                
+                  <code>integer</code>
+                  <br>
+                  <br>
+                
+              </td>
+              <td>
+                The id of the event
+              </td>
+            </tr>
+            
+            <tr>
+              <td>
+                <code>kind</code>
+                <span class="label label-success">Required</span>
+              </td>
+              <td>
+                
+                  <code>'attend</code>
+                  <br>
+                  <br>
+                
+                  <code>'perform'</code>
+                  <br>
+                  <br>
+                
+                  <code>'recommend'</code>
+                  <br>
+                  <br>
+                
+                  <code>'none'</code>
+                  <br>
+                  <br>
+                
+              </td>
+              <td>
+                The type of participation to set. 
+When <code>none</code> any existing RSVP will be removed.
+              </td>
+            </tr>
+            
+            
+          </tbody>
+        </table>
+        
+      </div>
+
+      <h2>Explore</h2>
+      <br>
+
+      <div id="api-error" class="alert alert-error" style="display: none;">
+        <button class="close" data-dismiss="alert">×</button>
+        <span id="error-msg"></span>
+      </div>
+
+      <form class="api well form-inline">
+        <input type="hidden" name="method" value="POST" />
+        <input name="url" type="text" class="input" value="/api/v1/events/1/rsvp">
+        <button type="submit" class="btn btn-primary ">POST</button>
+        <br>
+        <br>
+        
+          
+            <label class="text">
+              kind : <input name="kind" type="text" class="input" value="attend">
+            </label>
+            <br>
+          
+        
+      </form>
+
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li><a href="#tab1" data-toggle="tab">Request</a></li>
+          <li class="active"><a href="#tab2" data-toggle="tab">Response</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" id="tab1"></div>
+          <div class="tab-pane active" id="tab2"></div>
+        </div>
+      </div>
+
+      <footer class="footer">
+      <p class="pull-right"><a href="#">To top</a></p>
+
+      <p>
+        Built with Twitter Boilerplate, including Request / Response style and logic from hurl.it
+      </p>
+      </footer>
+
+    </div> <!-- /container -->
+  </body>
+</html>
+
