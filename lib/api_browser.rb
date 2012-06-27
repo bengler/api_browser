@@ -10,6 +10,8 @@ require_relative 'api_browser/curling'
 require_relative 'api_browser/endpoint'
 require_relative 'api_browser/parser'
 require_relative 'api_browser/curling'
+require_relative "api_browser/helpers/session"
+require_relative "api_browser/helpers/from_hurl"
 require_relative "api_browser/app"
 
 module ApiBrowser

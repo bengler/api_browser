@@ -10,77 +10,19 @@ module ApiBrowser
     helpers Hurl::Helpers::PrettyPrinting
     helpers Hurl::Helpers::Sinatra
 
+    helpers ApiBrowser::Helpers::Session
+    helpers ApiBrowser::Helpers::FromHurl # copy pasted from Hurl
+
     helpers do
-
-      # render a json response
-      def json(hash = {})
-        content_type 'application/json'
-        Yajl::Encoder.encode(hash)
-      end
-
-      def logout!
-        session[:oauth_token] = nil
-      end
-
-      def authenticate!
-        callback_url = "#{base_url}/login/callback"
-        request_token = oauth_consumer.get_request_token(:oauth_callback => callback_url)
-        session[:request_token] = request_token.token
-        session[:request_token_secret] = request_token.secret
-        redirect request_token.authorize_url
-      end
-
       def base_url
         default_port = (request.scheme == "http") ? 80 : 443
         port = (request.port == default_port) ? "" : ":#{request.port.to_s}"
         "#{request.scheme}://#{request.host}#{port}#{env['SCRIPT_NAME']}"
       end
 
-      def authenticated?
-        !!session[:oauth_token]
-      end
-
-      # FIXME: This hardcode is no good.
-      # Instead; check url against endpoints
+      # FIXME: This hardcode is no good. Instead check url against endpoints
       def invalid_url?(url)
         !url.match /^\/api/
-      end
-
-      # turn post_data into a string for PUT requests
-      def stringify_data(data)
-        if data.is_a? String
-          data
-        elsif data.is_a? Array
-          data.map { |x| stringify_data(x) }.join("&")
-        elsif data.is_a? Curl::PostField
-          data.to_s
-        else
-          raise "Cannot stringify #{data.inspect}"
-        end
-      end
-
-      # headers from non-empty keys and values
-      def add_headers_from_arrays(curl, keys, values)
-        keys, values = Array(keys), Array(values)
-
-        keys.each_with_index do |key, i|
-          next if values[i].to_s.empty?
-          curl.headers[key] = values[i]
-        end
-      end
-
-      # post params from non-empty keys and values
-      def make_fields(method, keys, values)
-        return [] unless %w( POST PUT ).include? method
-
-        fields = []
-        keys, values = Array(keys), Array(values)
-        keys.each_with_index do |name, i|
-          value = values[i]
-          next if name.to_s.empty? || value.to_s.empty?
-          fields << Curl::PostField.content(name, value)
-        end
-        fields
       end
 
     end
@@ -104,15 +46,16 @@ module ApiBrowser
       end
     end
 
+    # Most of this is copy-pasted from hurl
     post '/' do
       url, method = params.values_at(:url, :method)
 
       return json(:error => "Invalid API endpoint") if invalid_url?(url)
+
       url = settings.url + url
-
       curl = Curl::Easy.new(url)
-
       sent_headers = []
+
       curl.on_debug do |type, data|
         # track request headers
         sent_headers << data if type == Curl::CURLINFO_HEADER_OUT
