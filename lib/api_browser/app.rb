@@ -5,7 +5,7 @@ module ApiBrowser
 
     set :root, (File.dirname(__FILE__) + '/../../')
 
-    set :endpoints, Proc.new { Parser.parse(doc_path.to_s)}
+    set :endpoints, Proc.new { Parser.parse(doc_paths)}
 
     configure :development do
       register Sinatra::Reloader
@@ -46,7 +46,7 @@ module ApiBrowser
 
     get '/?' do
       if authenticated?
-        redirect base_url + settings.endpoints.first.doc_path
+          redirect base_url + settings.endpoints.first.doc_path
       else
         erb :login
       end

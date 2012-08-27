@@ -12,20 +12,25 @@ module ApiBrowser
       :status
 
     def initialize(yardoc)
-      self.method = yardoc.tags(:http)[0].text
-      self.path   = yardoc.tags(:path)[0].text
-      self.docstring = yardoc.docstring
-      if yardoc.tags(:category).any?
-        self.category = yardoc.tags(:category)[0].text
+      @yardoc = yardoc
+      parse
+    end
+
+    def parse
+      self.method = @yardoc.http_verb || @yardoc.tags(:http)[0].text
+      self.path   = @yardoc.http_path || @yardoc.tags(:path)[0].text
+      self.docstring = @yardoc.docstring
+      if @yardoc.tags(:category).any?
+        self.category = @yardoc.tags(:category)[0].text
       end
-      self.status = yardoc.tags(:status).map do |s|
+      self.status = @yardoc.tags(:status).map do |s|
         {
           :code => s.name.to_i,
           :doc  => s.text
         }
       end
       self.status.sort_by!{|s| s[:code]}
-      self.params = [yardoc.tags(:required), yardoc.tags(:optional)].flatten.map do |param|
+      self.params = [@yardoc.tags(:required), @yardoc.tags(:optional)].flatten.map do |param|
         {
           :name  => param.name,
           :types => param.types,
@@ -34,11 +39,10 @@ module ApiBrowser
         }
       end
 
-      self.example = yardoc.tags(:example)[0].name
-      if yardoc.tags(:example)[0].text
-        self.example_params = yardoc.tags(:example)[0].text.split.map {|p| p.split(':')}
+      self.example = @yardoc.tags(:example)[0].name
+      if @yardoc.tags(:example)[0].text
+        self.example_params = @yardoc.tags(:example)[0].text.split.map {|p| p.split(':')}
       end
-
     end
 
     # The path used in the sinatra app for this endpoint in
