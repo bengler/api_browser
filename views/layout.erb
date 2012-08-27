@@ -53,7 +53,7 @@
               <li class="nav-header">
               <%= category || 'Uncategorized' %>
               </li>
-              <% endpoints.sort_by(&:path).each do |e| %>
+              <% endpoints.sort_by(&:path).sort_by { |e| e.path.length }.each do |e| %>
                 <li><a href="<%= base_url + e.path + '.' + e.method%>"><%= e.method + ' ' + e.path %></a></li>
               <% end %>
             <% end %>
