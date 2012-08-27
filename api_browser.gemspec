@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = ApiBrowser::VERSION
   s.authors     = ["Rune Botten"]
   s.email       = ["rbotten@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "http://github.com/bengler/api_browser"
+  s.summary     = "API doc engine"
+  s.description = "API doc engine"
 
   s.rubyforge_project = "api_browser"
 
