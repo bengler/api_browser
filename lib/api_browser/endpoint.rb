@@ -17,8 +17,8 @@ module ApiBrowser
     end
 
     def parse
-      self.method = @yardoc.http_verb || @yardoc.tags(:http)[0].text
-      self.path   = @yardoc.http_path || @yardoc.tags(:path)[0].text
+      self.method = @yardoc.tags(:http)[0].text
+      self.path   = @yardoc.tags(:path)[0].text
       self.docstring = @yardoc.docstring
       if @yardoc.tags(:category).any?
         self.category = @yardoc.tags(:category)[0].text
