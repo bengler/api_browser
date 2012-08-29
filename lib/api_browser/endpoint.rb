@@ -17,11 +17,15 @@ module ApiBrowser
     end
 
     def parse
-      self.method = @yardoc.tags(:http)[0].text
-      self.path   = @yardoc.tags(:path)[0].text
+      self.method = @yardoc.tags(:http)[0].try(:text)
+      self.method ||= 'GET'
+
+      self.path   = @yardoc.tags(:path)[0].try(:text)
       self.docstring = @yardoc.docstring
       if @yardoc.tags(:category).any?
-        self.category = @yardoc.tags(:category)[0].text
+        self.category = @yardoc.tags(:category)[0].try(:text)
+      else
+        self.category = 'Uncategorized'
       end
       self.status = @yardoc.tags(:status).map do |s|
         {
@@ -29,7 +33,7 @@ module ApiBrowser
           :doc  => s.text
         }
       end
-      self.status.sort_by!{|s| s[:code]}
+      self.status = self.status.sort_by { |s| s[:code] }
       self.params = [@yardoc.tags(:required), @yardoc.tags(:optional)].flatten.map do |param|
         {
           :name  => param.name,
@@ -39,8 +43,9 @@ module ApiBrowser
         }
       end
 
-      self.example = @yardoc.tags(:example)[0].name
-      if @yardoc.tags(:example)[0].text
+      self.example = @yardoc.tags(:example)[0].try(:name)
+      self.example ||= self.path
+      if @yardoc.tags(:example)[0].try(:text)
         self.example_params = @yardoc.tags(:example)[0].text.split.map {|p| p.split(':')}
       end
     end

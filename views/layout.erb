@@ -49,11 +49,11 @@
         </div>
         <div class="navigation span4">
           <ul class="nav nav-list">
-            <% settings.endpoints.group_by{|e| e.category}.sort.each do |category, endpoints| %>
+            <% settings.endpoints.group_by { |e| e.category || '' }.sort.each do |category, endpoints| %>
               <li class="nav-header">
               <%= category || 'Uncategorized' %>
               </li>
-              <% endpoints.sort_by(&:path).sort_by { |e| e.path.length }.each do |e| %>
+              <% endpoints.select { |e| !!e.path }.sort_by { |e| e.path || '' }.sort_by { |e| (e.path || '').length }.each do |e| %>
                 <li><a href="<%= base_url + e.path + '.' + e.method%>"><%= e.method + ' ' + e.path %></a></li>
               <% end %>
             <% end %>

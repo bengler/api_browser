@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "curb"
   s.add_dependency "yard-sinatra"
   s.add_dependency "oauth"
+  s.add_dependency "activesupport"
   s.add_development_dependency "sinatra-contrib"
 
 end

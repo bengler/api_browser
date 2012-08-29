@@ -16,7 +16,8 @@ module ApiBrowser
         YARD.parse path
       end
       # Only keep stuff with @path on it
-      YARD::Registry.all.reject {|r| r.tags(:apidoc).empty?}.map {|t| Endpoint.new(t)}.sort_by(&:path)
+      YARD::Registry.all.reject { |r| r.tags(:apidoc).empty? }.
+        map { |t| Endpoint.new(t) }.sort_by { |e| e.path || '' }
     end
   end
 end
