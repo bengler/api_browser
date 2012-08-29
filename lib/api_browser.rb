@@ -4,6 +4,10 @@ require 'yajl'
 require 'coderay'
 require 'yard'
 
+unless defined?(require_relative)
+  alias :require_relative :require  # Ruby 1.8
+end
+
 require_relative 'hurl'
 require_relative "api_browser/version"
 require_relative 'api_browser/curling'
