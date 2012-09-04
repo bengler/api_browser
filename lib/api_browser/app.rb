@@ -1,4 +1,7 @@
-require "sinatra/reloader"
+if ENV['RACK_ENV'] == 'development'
+#  require "sinatra/reloader" rescue nil
+end
+
 # coding: utf-8
 module ApiBrowser
   class App < Sinatra::Base
@@ -8,8 +11,10 @@ module ApiBrowser
     set :endpoints, Proc.new { Parser.parse(doc_paths)}
 
     configure :development do
-      register Sinatra::Reloader
-      also_reload "lib/**/*.rb"
+      if defined?(Sinatra::Reloader)
+        register Sinatra::Reloader
+        also_reload "lib/**/*.rb"
+      end
     end
 
     helpers Curling::Helpers
