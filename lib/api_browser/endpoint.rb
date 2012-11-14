@@ -24,8 +24,8 @@ module ApiBrowser
 
       self.path   = @yardoc.tags(:path)[0].try(:text)
       self.docstring = @yardoc.docstring
-      self.note = @yardoc.note
-      self.description = @yardoc.description
+      self.description = @yardoc.tags(:description)[0].try(:text)
+      self.note = @yardoc.tags(:note)[0].try(:text)
       if @yardoc.tags(:category).any?
         self.category = @yardoc.tags(:category)[0].try(:text)
       else
