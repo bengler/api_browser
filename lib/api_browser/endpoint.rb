@@ -9,7 +9,9 @@ module ApiBrowser
       :example,
       :example_params,
       :category,
-      :status
+      :status,
+      :note,
+      :description
 
     def initialize(yardoc)
       @yardoc = yardoc
@@ -22,6 +24,8 @@ module ApiBrowser
 
       self.path   = @yardoc.tags(:path)[0].try(:text)
       self.docstring = @yardoc.docstring
+      self.note = @yardoc.note
+      self.description = @yardoc.description
       if @yardoc.tags(:category).any?
         self.category = @yardoc.tags(:category)[0].try(:text)
       else

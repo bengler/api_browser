@@ -429,10 +429,25 @@ p small {
 }
 
 .lead {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   font-size: 20px;
   font-weight: 200;
   line-height: 27px;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 27px;
+}
+
+.note {
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 27px;
+  font-style: italic;
+  color: #666;
 }
 
 h1,

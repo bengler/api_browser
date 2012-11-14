@@ -1,6 +1,8 @@
 YARD::Config.load_plugin("sinatra")
 
 YARD::Tags::Library.define_tag("API Doc", :apidoc)
+YARD::Tags::Library.define_tag("Description", :description)
+YARD::Tags::Library.define_tag("Note", :note)
 YARD::Tags::Library.define_tag("Endpoint path", :path)
 YARD::Tags::Library.define_tag("Category", :category)
 YARD::Tags::Library.define_tag("API example", :example, :with_name)
@@ -21,4 +23,3 @@ module ApiBrowser
     end
   end
 end
-

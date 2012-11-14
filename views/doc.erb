@@ -2,8 +2,18 @@
         <h1><%= @ctx.method %> <%= @ctx.path %></h1>
         <br>
         <p class="lead">
-        <%= @ctx.docstring %>
+          <%= @ctx.docstring %>
         </p>
+        <% if @ctx.description %>
+          <p class="description">
+          <%= @ctx.description %>
+          </p>
+        <% end %>
+        <% if @ctx.note %>
+          <p class="note">
+          <%= @ctx.note %>
+          </p>
+        <% end %>
         <% if @ctx.params.any? %>
         <table class="table table-bordered table-striped">
           <colgroup>
