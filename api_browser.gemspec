@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "coderay", '1.0.6'
   s.add_dependency "yard"
   s.add_dependency "yajl-ruby"
-  s.add_dependency "curb"
+  s.add_dependency "curb", "~> 0.9.10"
   s.add_dependency "yard-sinatra"
   s.add_dependency "oauth"
   s.add_dependency "activesupport"
